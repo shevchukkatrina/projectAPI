@@ -1,18 +1,30 @@
+const bookingService = require('../service/booking');
+
 const getAllBooking = async (req, res) => {
-  res.json({ ok: true });
+  const booking = await bookingService.getAllBooking();
+
+    res.json({ booking });
 };
 const getBooking = async (req, res) => {
-  res.json({ ok: true });
+  const id = req.params.id;
+    const booking = await bookingService.getBooking(id);
+    res.json({ booking });
 };
-
 const createBooking = async (req, res) => {
-  res.json({ ok: true });
+    const { body } = req;
+    console.log(body);
+    const booking = await bookingService.createBooking(body);
+    res.status(201).json({ booking });
 };
 const updateBooking = async (req, res) => {
-  res.json({ ok: true });
+  const { id } = req.params;
+    const result = await bookingService.updateBooking(id, req.body);
+    res.json({ booking: result });
 };
 const deleteBooking = async (req, res) => {
-  res.json({ ok: true });
+    const { id } = req.params;
+    const result = await bookingService.deleteBooking(id);
+    res.status(204).send();
 };
 const getUserBookings = async (req, res) => {
     res.json({ ok: true });
