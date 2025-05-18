@@ -12,7 +12,8 @@ require('dotenv').config();
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const instructorsRouter = require('./routes/instructors');
-const ticketsRouter = require('./routes/tickets')
+const ticketsRouter = require('./routes/tickets');
+const bookingRouter = require('./routes/booking')
 
 const initMongoDB = require('./db/initMongoDB');
 
@@ -68,6 +69,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/instructors', instructorsRouter);
 app.use('/tickets', ticketsRouter);
+app.use('/booking', bookingRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
