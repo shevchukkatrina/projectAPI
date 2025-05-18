@@ -14,6 +14,7 @@ const usersRouter = require('./routes/users');
 const instructorsRouter = require('./routes/instructors');
 const ticketsRouter = require('./routes/tickets');
 const bookingRouter = require('./routes/booking')
+const eventsRouter = require('./routes/events')
 
 const initMongoDB = require('./db/initMongoDB');
 
@@ -70,7 +71,7 @@ app.use('/users', usersRouter);
 app.use('/instructors', instructorsRouter);
 app.use('/tickets', ticketsRouter);
 app.use('/booking', bookingRouter);
-
+app.use('/events', eventsRouter);
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
     next(createError(404));
