@@ -9,7 +9,7 @@ const ticketSchema = new Schema(
   {
     timestamps: true,
     versionKey: false,
-  },
+  }
 );
 
 export const Ticket = model('tickets', ticketSchema);
