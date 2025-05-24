@@ -1,30 +1,19 @@
 const express = require("express");
-const {
-  getAllBooking,
-  getBooking,
-  updateBooking,
-  createBooking,
-  deleteBooking,
-  getUserBookings,
-  getEventBookings,
-  cancelBooking,
-  confirmBooking,
-  getBookingStatus 
-} = require("../controllers/booking.controller");
+const { bookingsController } = require("../controllers");
 
 const router = express.Router();
 
 /* GET users listing. */
-router.get("/", getAllBooking);
-router.get("/:id", getBooking);
-router.put("/:id", updateBooking);
-router.post("/", createBooking);
-router.delete("/:id", deleteBooking);
+router.get("/", bookingsController.getAllBookings);
+router.get("/:id", bookingsController.getBooking);
+router.put("/:id", bookingsController.updateBooking);
+router.post("/", bookingsController.createBooking);
+router.delete("/:id", bookingsController.deleteBooking);
 
-router.get("/user/:id", getUserBookings);
-router.get("/event/:id", getEventBookings);
-router.put("/cancel/:id", cancelBooking);
-router.put("/confirm/:id", confirmBooking);
-router.get("/status/:id", getBookingStatus);
+router.get("/user/:id", bookingsController.getUserBookings);
+router.get("/event/:id", bookingsController.getEventBookings);
+router.put("/cancel/:id", bookingsController.cancelBooking);
+router.put("/confirm/:id", bookingsController.confirmBooking);
+router.get("/status/:id", bookingsController.getBookingStatus);
 
 module.exports = router;

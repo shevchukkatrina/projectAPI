@@ -1,4 +1,4 @@
-const { Ticket } = require('../db/models/ticket.model');
+const { Ticket } = require("../models");
 
 const getAllTickets = async () => {
   const tickets = await Ticket.find();
@@ -14,8 +14,11 @@ const createTicket = async (data) => {
   const newTicket = await Ticket.create(data);
   return newTicket;
 };
+
 const updateTicket = async (ticketId, data) => {
-  const updatedTicket = await Ticket.findOneAndUpdate({ _id: ticketId }, data, { new: true });
+  const updatedTicket = await Ticket.findOneAndUpdate({ _id: ticketId }, data, {
+    new: true,
+  });
   return updatedTicket;
 };
 

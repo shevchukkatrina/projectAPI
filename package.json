@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "node --watch ./bin/www",
+    "dev": "nodemon ./bin/www",
     "start": "node ./bin/www",
     "test": "cross-env NODE_ENV=test jest",
     "test:cover": "cross-env NODE_ENV=test jest --coverage",
@@ -19,6 +19,7 @@
     "mongoose": "^8.15.0",
     "morgan": "~1.9.1",
     "mysql2": "^3.7.0",
+    "nodemon": "^3.1.10",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1"
   },

@@ -1,4 +1,4 @@
-const { Event } = require('../db/models/event.model');
+const { Event } = require("../models");
 
 const getAllEvents = async () => {
   const events = await Event.find();
@@ -29,7 +29,7 @@ const deleteEvent = async (eventId) => {
 const getAvailableTickets = async (eventId) => {
   const event = await Event.findById(eventId);
   if (!event) return null;
-  console.log(event)
+  console.log(event);
   return event.available_tickets;
 };
 

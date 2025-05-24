@@ -9,12 +9,7 @@ const performanceMiddleware = require('./middleware/performance');
 const requestStatsMiddleware = require('./middleware/requestStats');
 require('dotenv').config();
 
-const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
-const instructorsRouter = require('./routes/instructors');
-const ticketsRouter = require('./routes/tickets');
-const bookingRouter = require('./routes/booking')
-const eventsRouter = require('./routes/events')
+const rootRouter = require('./routes')
 
 const initMongoDB = require('./db/initMongoDB');
 
@@ -65,13 +60,9 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use(performanceMiddleware);
 app.use(requestStatsMiddleware);
 
-// Routers
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/instructors', instructorsRouter);
-app.use('/tickets', ticketsRouter);
-app.use('/booking', bookingRouter);
-app.use('/events', eventsRouter);
+// Router
+app.use('/', rootRouter)
+
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
     next(createError(404));
