@@ -2,7 +2,9 @@ const { User } = require("../models");
 const bcrypt = require("bcryptjs");
 
 const getAllUsers = async () => {
-  const users = await User.find();
+  const users = await User.find().select(
+    "-password -_id -createdAt -updatedAt -__v"
+  );
   return users;
 };
 

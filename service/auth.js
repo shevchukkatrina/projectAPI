@@ -1,3 +1,7 @@
+const { User } = require("../models");
+const bcrypt = require("bcryptjs");
+const { generateToken } = require("../utils");
+
 const authenticateUser = async (email, password) => {
   const user = await User.findOne({ email });
   if (!user) {
@@ -26,5 +30,5 @@ const authenticateUser = async (email, password) => {
 };
 
 module.exports = {
-    authenticateUser
-}
+  authenticateUser,
+};

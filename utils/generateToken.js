@@ -8,4 +8,4 @@ const generateToken = (userId, role) => {
   );
 };
 
-module.exports = generateToken
+module.exports = generateToken;
