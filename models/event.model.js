@@ -11,11 +11,6 @@ const eventSchema = new Schema({
     type: String,
     required: true
   },
-  category: {
-    type: String,
-    required: true,
-    enum: ['concert', 'theater', 'sport', 'cinema', 'exhibition', 'other']
-  },
   startDate: {
     type: Date,
     required: true
@@ -43,9 +38,6 @@ const eventSchema = new Schema({
     type: String,
     enum: ['active', 'cancelled', 'completed', 'postponed'],
     default: 'active'
-  },
-  imageUrl: {
-    type: String
   },
   tickets: [{
     type: Schema.Types.ObjectId,

@@ -7,26 +7,12 @@ const { Event, User } = require("../../models");
  */
 const createEvent = async (req, res) => {
   try {
-    const {
-      title,
-      description,
-      category,
-      venue,
-      startDate,
-      endDate,
-      totalTickets,
-      imageUrl,
-    } = req.body;
+    const { title, description, startDate, endDate, totalTickets } = req.body;
 
-    // Validate request data
     if (
-      !title ||
-      !description ||
-      !category ||
-      !venue ||
-      !startDate ||
-      !endDate ||
-      !totalTickets
+      [title, description, startDate, endDate, totalTickets].some(
+        (value) => value === undefined
+      )
     ) {
       return res.status(400).json({
         success: false,
