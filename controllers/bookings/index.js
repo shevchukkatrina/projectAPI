@@ -1,4 +1,4 @@
-const controllerWrapper = require("../../utils/controllerWrapper");
+const { controllerWrapper } = require("../../utils");
 
 const cancelBooking = require("./cancelBooking");
 const confirmBooking = require("./confirmBooking");

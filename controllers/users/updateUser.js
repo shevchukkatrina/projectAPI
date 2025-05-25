@@ -16,7 +16,10 @@ const updateUser = async (req, res) => {
   const keysValid = keys.every((item) => validKeys.includes(item));
 
   if (!keysValid) {
-    throw new Error("Some key name is wrong");
+    return res.status(400).json({
+      success: false,
+      message: "Some key name is wrong",
+    });
   }
 
   const result = await usersService.updateUser(id, req.body);

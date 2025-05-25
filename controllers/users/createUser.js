@@ -10,7 +10,10 @@ const createUser = async (req, res) => {
       (value) => value === undefined
     )
   ) {
-    throw new Error("Some required field is missing");
+    return res.status(400).json({
+      success: false,
+      message: "Please provide all required fields",
+    });
   }
 
   const result = await usersService.createUser(userData);

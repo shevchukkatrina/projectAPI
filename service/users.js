@@ -1,4 +1,5 @@
 const { User } = require("../models");
+const bcrypt = require("bcryptjs");
 
 const getAllUsers = async () => {
   const users = await User.find();
@@ -25,10 +26,12 @@ const createUser = async (data) => {
     throw new Error("User with this email already exists");
   }
 
+  const hashedPassword = await bcrypt.hash(password, 10);
+
   // Створення користувача
   const user = new User({
     email,
-    password,
+    password: hashedPassword,
     firstName,
     lastName,
     phoneNumber,
@@ -36,6 +39,9 @@ const createUser = async (data) => {
   });
 
   await user.save();
+
+  // Генерація JWT токена
+  const token = generateToken(user._id, user.role);
 
   return {
     user: {
@@ -46,6 +52,7 @@ const createUser = async (data) => {
       phoneNumber: user.phoneNumber,
       role: user.role,
     },
+    token,
   };
 };
 

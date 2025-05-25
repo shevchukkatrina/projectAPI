@@ -1,4 +1,4 @@
-const controllerWrapper = require("../../utils/controllerWrapper");
+const { controllerWrapper } = require("../../utils");
 
 const getUser = require("./getUser");
 const createUser = require("./createUser");

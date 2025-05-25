@@ -1,4 +1,4 @@
-const controllerWrapper = require("../../utils/controllerWrapper");
+const { controllerWrapper } = require("../../utils");
 
 const createEvent = require("./creteEvent");
 const deleteEvent = require("./deleteEvent");
