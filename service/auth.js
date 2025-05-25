@@ -1,4 +1,4 @@
-const { User } = require("../models");
+const { User, Session } = require("../models");
 const bcrypt = require("bcryptjs");
 const { generateToken } = require("../utils");
 
@@ -13,7 +13,12 @@ const authenticateUser = async (email, password) => {
     throw new Error("Invalid email or password");
   }
 
+  // Remove previous active session if exist
+  await Session.findOneAndDelete({ userId: user._id });
+
   const token = generateToken(user._id, user.role);
+
+  Session.create({ userId: user._id, token });
 
   return {
     user: {
@@ -29,6 +34,26 @@ const authenticateUser = async (email, password) => {
   };
 };
 
+const logout = async (email) => {
+  const user = await User.findOne({ email });
+  if (!user) {
+    throw new Error("Invalid email or password");
+  }
+
+  const session = await Session.findOne({ userId: user._id });
+  if (!session) {
+    throw new Error("Session not found");
+  }
+
+  const result = await Session.findOneAndDelete({ userId: user._id });
+
+  return {
+    success: true,
+    message: "Logout success",
+  };
+};
+
 module.exports = {
   authenticateUser,
+  logout,
 };
