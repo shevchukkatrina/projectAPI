@@ -11,8 +11,42 @@ const getUser = async (id) => {
 };
 
 const createUser = async (data) => {
-  const newUser = await User.create(data);
-  return newUser;
+  const {
+    email,
+    password,
+    firstName,
+    lastName,
+    phoneNumber,
+    role = "user",
+  } = data;
+  // Перевірка чи користувач вже існує
+  const existingUser = await User.findOne({ email });
+  if (existingUser) {
+    throw new Error("User with this email already exists");
+  }
+
+  // Створення користувача
+  const user = new User({
+    email,
+    password,
+    firstName,
+    lastName,
+    phoneNumber,
+    role,
+  });
+
+  await user.save();
+
+  return {
+    user: {
+      id: user._id,
+      email: user.email,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      phoneNumber: user.phoneNumber,
+      role: user.role,
+    },
+  };
 };
 
 const updateUser = async (userId, data) => {

@@ -1,3 +1,5 @@
+const controllerWrapper = require("../../utils/controllerWrapper");
+
 const cancelBooking = require("./cancelBooking");
 const confirmBooking = require("./confirmBooking");
 const createBooking = require("./createBooking");
@@ -10,14 +12,14 @@ const getUserBookings = require("./getUserBookings");
 const updateBooking = require("./updateBooking");
 
 module.exports = {
-  cancelBooking,
-  confirmBooking,
-  createBooking,
-  deleteBooking,
-  getAllBookings,
-  getBooking,
-  getBookingStatus,
-  getEventBookings,
-  getUserBookings,
-  updateBooking,
+  cancelBooking: controllerWrapper(cancelBooking),
+  confirmBooking: controllerWrapper(confirmBooking),
+  createBooking: controllerWrapper(createBooking),
+  deleteBooking: controllerWrapper(deleteBooking),
+  getAllBookings: controllerWrapper(getAllBookings),
+  getBooking: controllerWrapper(getBooking),
+  getBookingStatus: controllerWrapper(getBookingStatus),
+  getEventBookings: controllerWrapper(getEventBookings),
+  getUserBookings: controllerWrapper(getUserBookings),
+  updateBooking: controllerWrapper(updateBooking),
 };

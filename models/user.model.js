@@ -1,59 +1,60 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const userSchema = new Schema({
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-    trim: true,
-    lowercase: true
+const userSchema = new Schema(
+  {
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
+      lowercase: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+    firstName: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    lastName: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    phoneNumber: {
+      type: String,
+      trim: true,
+    },
+    role: {
+      type: String,
+      enum: ["user", "admin", "organizer"],
+      default: "user",
+    },
+    bookings: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Booking",
+      },
+    ],
   },
-  password: {
-    type: String,
-    required: true
-  },
-  firstName: {
-    type: String,
-    required: true,
-    trim: true
-  },
-  lastName: {
-    type: String,
-    required: true,
-    trim: true
-  },
-  phoneNumber: {
-    type: String,
-    trim: true
-  },
-  role: {
-    type: String,
-    enum: ['user', 'admin', 'organizer'],
-    default: 'user'
-  },
-  isVerified: {
-    type: Boolean,
-    default: false
-  },
-  bookings: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Booking'
-  }]
-}, {
-  timestamps: true
-});
+  {
+    timestamps: true,
+  }
+);
 
 // Метод для перевірки чи є користувач адміністратором
-userSchema.methods.isAdmin = function() {
-  return this.role === 'admin';
+userSchema.methods.isAdmin = function () {
+  return this.role === "admin";
 };
 
 // Метод для перевірки чи є користувач організатором подій
-userSchema.methods.isOrganizer = function() {
-  return this.role === 'organizer';
+userSchema.methods.isOrganizer = function () {
+  return this.role === "organizer";
 };
 
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model("User", userSchema);
 
 module.exports = User;
