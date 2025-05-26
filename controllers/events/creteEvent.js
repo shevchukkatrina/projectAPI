@@ -48,7 +48,7 @@ const createEvent = async (req, res) => {
 
         // Validate user permissions (assuming user is an organizer or admin)
         // User ID is taken from authenticated session or token
-        const organizerId = req.user.id;
+        const organizerId = req.user._id;
 
         const organizer = await User.findById(organizerId);
         if (!organizer) {
@@ -58,26 +58,16 @@ const createEvent = async (req, res) => {
             });
         }
 
-        if (!['organizer', 'admin'].includes(organizer.role)) {
-            return res.status(403).json({
-                success: false,
-                message: 'Only organizers and admins can create events',
-            });
-        }
-
         // Create the event
         const newEvent = new Event({
             title,
             description,
-            category,
-            venue,
             startDate: startDateObj,
             endDate: endDateObj,
             organizerId,
-            totalTickets: parseInt(totalTickets),
-            availableTickets: parseInt(totalTickets), // Initially all tickets are available
+            totalTickets: parseInt(totalTickets, 10),
+            availableTickets: parseInt(totalTickets, 10), // Initially all tickets are available
             status: 'active',
-            imageUrl: imageUrl || null,
         });
 
         // Save the event to the database
@@ -90,7 +80,6 @@ const createEvent = async (req, res) => {
                 eventId: newEvent._id,
                 title: newEvent.title,
                 startDate: newEvent.startDate,
-                venue: newEvent.venue,
                 totalTickets: newEvent.totalTickets,
             },
         });
