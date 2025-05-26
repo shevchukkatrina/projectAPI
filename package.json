@@ -6,7 +6,6 @@
     "dev": "nodemon ./bin/www",
     "start": "node ./bin/www",
     "test": "cross-env NODE_ENV=test jest",
-    "test:cover": "cross-env NODE_ENV=test jest --coverage",
     "lint": "eslint ./ --ext .js",
     "lint:fix": "eslint ./ --fix --ext .js"
   },
