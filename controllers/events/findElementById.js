@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 const mongoose = require('mongoose');
 const { Event } = require('../../models');
 

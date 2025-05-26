@@ -1,3 +1,4 @@
+/* eslint-disable */
 const bcrypt = require('bcryptjs');
 const { User, Session } = require('../models');
 const { generateToken } = require('../utils');

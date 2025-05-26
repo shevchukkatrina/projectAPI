@@ -12,7 +12,7 @@ const login = async (req, res) => {
 
     const user = await authService.authenticateUser(email, password);
 
-    res.json({ user });
+    return res.json({ user });
 };
 
 module.exports = login;

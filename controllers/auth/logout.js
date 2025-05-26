@@ -12,7 +12,7 @@ const logout = async (req, res) => {
 
     const result = await authService.logout(email);
 
-    res.json(result);
+    return res.json(result);
 };
 
 module.exports = logout;

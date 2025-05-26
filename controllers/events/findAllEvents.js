@@ -1,4 +1,4 @@
-const { Event, User } = require('../../models');
+const { Event } = require('../../models');
 
 /**
  * Controller method to fetch all events with optional filtering
