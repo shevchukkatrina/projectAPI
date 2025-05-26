@@ -20,8 +20,11 @@ try {
     console.error(error)
     process.exit(1)
 }
+const setupSwagger = require('./swagger');
+
 
 const app = express();
+setupSwagger(app);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -32,29 +35,30 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+// app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(require('./swagger')));
 
-const swaggerOptions = {
-    swaggerDefinition: {
-        info: {
-            version: '1.0.0',
-            title: 'Express Application',
-            description: 'Express Application API Documentation',
-        },
-        schemes: ['http'],
-        consumes: ['application/json'],
-        produces: ['application/json'],
-    },
-    apis: ['./models/*.js', './controllers/*.js'],
-};
+// const swaggerOptions = {
+//     swaggerDefinition: {
+//         info: {
+//             version: '1.0.0',
+//             title: 'Express Application',
+//             description: 'Express Application API Documentation',
+//         },
+//         schemes: ['http'],
+//         consumes: ['application/json'],
+//         produces: ['application/json'],
+//     },
+//     apis: ['./models/*.js', './controllers/*.js'],
+// };
 
-const swaggerSpec = swaggerJSDoc(swaggerOptions);
+// const swaggerSpec = swaggerJSDoc(swaggerOptions);
 
-app.get('/api-docs.json', (req, res) => {
-    res.setHeader('Content-Type', 'application/json');
-    res.send(swaggerSpec);
-});
+// app.get('/api-docs.json', (req, res) => {
+//     res.setHeader('Content-Type', 'application/json');
+//     res.send(swaggerSpec);
+// });
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+// app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Middlewares
 app.use(performanceMiddleware);

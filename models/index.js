@@ -1,5 +1,5 @@
-const Session = require("./session.model");
 const Booking = require("./booking.model");
+const Session = require("./session.model");
 const Ticket = require("./ticket.model");
 const Event = require("./event.model");
 const User = require("./user.model");
