@@ -1,3 +1,5 @@
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-plusplus */
 const { Event, Ticket } = require('../../models');
 
 const createTicket = async (req, res) => {

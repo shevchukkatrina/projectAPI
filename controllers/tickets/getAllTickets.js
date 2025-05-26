@@ -7,14 +7,14 @@ const getAllTickets = async (req, res) => {
     if (eventId) filter.eventId = eventId;
     if (status) filter.status = status;
 
-    const skip = (parseInt(page) - 1) * parseInt(limit);
+    const skip = (parseInt(page, 10) - 1) * parseInt(limit, 10);
 
     const tickets = await Ticket.find(filter)
         .populate('eventId', 'title startDate endDate')
         .populate('bookingId', 'bookingReference status')
         .sort({ createdAt: -1 })
         .skip(skip)
-        .limit(parseInt(limit));
+        .limit(parseInt(limit, 10));
 
     const total = await Ticket.countDocuments(filter);
 
@@ -23,8 +23,8 @@ const getAllTickets = async (req, res) => {
         data: {
             tickets,
             pagination: {
-                current: parseInt(page),
-                total: Math.ceil(total / parseInt(limit)),
+                current: parseInt(page, 10),
+                total: Math.ceil(total / parseInt(limit, 10)),
                 count: tickets.length,
                 totalTickets: total,
             },

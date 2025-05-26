@@ -46,14 +46,7 @@ const updateEvent = async (req, res) => {
             });
         }
 
-        const {
-            title,
-            description,
-            startDate,
-            endDate,
-            status,
-            totalTickets,
-        } = req.body;
+        const { title, description, startDate, endDate, status, totalTickets } = req.body;
 
         if (startDate && endDate) {
             const startDateObj = new Date(startDate);

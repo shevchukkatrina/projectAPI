@@ -56,7 +56,7 @@ const updateTicket = async (req, res) => {
         if (event) {
             const availableCount = await Ticket.countDocuments({
                 eventId: ticket.eventId,
-                status: 'available'
+                status: 'available',
             });
             event.availableTickets = availableCount;
             await event.save();

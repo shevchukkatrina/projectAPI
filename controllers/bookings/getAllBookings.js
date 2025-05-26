@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 const { Booking } = require('../../models');
 
 const getAllBookings = async (req, res) => {
@@ -21,7 +22,7 @@ const getAllBookings = async (req, res) => {
         filter.userId = requestingUserId;
     }
 
-    const skip = (parseInt(page) - 1) * parseInt(limit);
+    const skip = (parseInt(page, 10) - 1) * parseInt(limit, 10);
 
     const bookings = await Booking.find(filter)
         .populate('eventId', 'title startDate endDate organizerId')
@@ -29,7 +30,7 @@ const getAllBookings = async (req, res) => {
         .populate('userId', 'name email')
         .sort({ createdAt: -1 })
         .skip(skip)
-        .limit(parseInt(limit));
+        .limit(parseInt(limit, 10));
 
     const total = await Booking.countDocuments(filter);
 
@@ -38,8 +39,8 @@ const getAllBookings = async (req, res) => {
         data: {
             bookings,
             pagination: {
-                current: parseInt(page),
-                total: Math.ceil(total / parseInt(limit)),
+                current: parseInt(page, 10),
+                total: Math.ceil(total / parseInt(limit, 10)),
                 count: bookings.length,
                 totalBookings: total,
             },

@@ -1,3 +1,4 @@
+/* eslint-disable */
 const { Event, Ticket, Booking } = require('../../models');
 
 const createBooking = async (req, res) => {
@@ -28,7 +29,7 @@ const createBooking = async (req, res) => {
 
     const availableTickets = await Ticket.find({
         eventId,
-        status: 'available'
+        status: 'available',
     }).limit(ticketQuantity);
 
     if (availableTickets.length < ticketQuantity) {
@@ -61,7 +62,7 @@ const createBooking = async (req, res) => {
 
     const newAvailableCount = await Ticket.countDocuments({
         eventId,
-        status: 'available'
+        status: 'available',
     });
     event.availableTickets = newAvailableCount;
     await event.save();

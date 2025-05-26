@@ -49,11 +49,7 @@ const findAllEvents = async (req, res) => {
         const sortOrder = req.query.sortOrder === 'desc' ? -1 : 1;
         const sort = { [sortBy]: sortOrder };
 
-        const events = await Event.find(filter)
-            .sort(sort)
-            .skip(skip)
-            .limit(limit)
-            .lean();
+        const events = await Event.find(filter).sort(sort).skip(skip).limit(limit).lean();
 
         const totalEvents = await Event.countDocuments(filter);
         const totalPages = Math.ceil(totalEvents / limit);

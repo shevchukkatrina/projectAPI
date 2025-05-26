@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 const { Booking } = require('../../models');
 
 const getBooking = async (req, res) => {

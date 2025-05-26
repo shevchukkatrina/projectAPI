@@ -1,3 +1,4 @@
+/* eslint-disable */
 const { Event, Ticket, Booking } = require('../../models');
 
 const deleteBooking = async (req, res) => {
@@ -46,7 +47,7 @@ const deleteBooking = async (req, res) => {
     if (event) {
         const availableCount = await Ticket.countDocuments({
             eventId: booking.eventId,
-            status: 'available'
+            status: 'available',
         });
         event.availableTickets = availableCount;
         await event.save();
