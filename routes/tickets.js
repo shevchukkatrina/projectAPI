@@ -177,7 +177,7 @@ router.use(authenticate);
 router.get('/', ticketsController.getAllTickets);
 router.get('/:id', ticketsController.getTicket);
 router.post('/', ticketsController.createTicket);
-router.put('/', ticketsController.updateTicket);
+router.put('/:id', ticketsController.updateTicket);
 router.delete('/:id', ticketsController.deleteTicket);
 
 module.exports = router;

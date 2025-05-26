@@ -15,7 +15,6 @@ const deleteEvent = async (req, res) => {
         const { id: eventId } = req.params;
         const userId = req.user.id;
 
-        // Validate event ID format
         if (!mongoose.Types.ObjectId.isValid(eventId)) {
             return res.status(400).json({
                 success: false,
@@ -23,10 +22,8 @@ const deleteEvent = async (req, res) => {
             });
         }
 
-        // Find the event
         const event = await Event.findById(eventId).session(session);
 
-        // Check if event exists
         if (!event) {
             await session.abortTransaction();
             session.endSession();
@@ -36,7 +33,6 @@ const deleteEvent = async (req, res) => {
             });
         }
 
-        // Check if user has permission to delete (must be organizer or admin)
         const user = await User.findById(userId).session(session);
 
         if (!user) {
@@ -48,7 +44,6 @@ const deleteEvent = async (req, res) => {
             });
         }
 
-        // Check permission - user must be admin or the original organizer
         const isAdmin = user.role === 'admin';
         const isOrganizer = user.role === 'organizer' && event.organizerId.toString() === userId;
 
@@ -61,7 +56,6 @@ const deleteEvent = async (req, res) => {
             });
         }
 
-        // Check if the event has active bookings
         const activeBookings = await Booking.countDocuments({
             eventId,
             status: { $in: ['confirmed', 'pending'] },
@@ -77,21 +71,15 @@ const deleteEvent = async (req, res) => {
             });
         }
 
-        // Handle soft delete vs. hard delete
         const hardDelete = req.query.hardDelete === 'true' && isAdmin;
 
         if (hardDelete) {
-            // Only admins can perform hard deletes
-
-            // First, cancel all related bookings
             await Booking.updateMany({ eventId }, { $set: { status: 'cancelled' } }).session(
                 session,
             );
 
-            // Delete all tickets related to this event
             await Ticket.deleteMany({ eventId }).session(session);
 
-            // Delete the event itself
             await Event.findByIdAndDelete(eventId).session(session);
 
             await session.commitTransaction();
@@ -102,17 +90,14 @@ const deleteEvent = async (req, res) => {
                 message: 'Event and all related data have been permanently deleted',
             });
         }
-        // Soft delete - just change status to cancelled and hide from listings
         event.status = 'cancelled';
         await event.save({ session });
 
-        // Cancel all pending bookings
         await Booking.updateMany(
             { eventId, status: 'pending' },
             { $set: { status: 'cancelled' } },
         ).session(session);
 
-        // Mark all available tickets as cancelled
         await Ticket.updateMany(
             { eventId, status: 'available' },
             { $set: { status: 'cancelled' } },
@@ -126,7 +111,6 @@ const deleteEvent = async (req, res) => {
             message: 'Event has been cancelled successfully',
         });
     } catch (error) {
-        // Abort transaction on error
         await session.abortTransaction();
         session.endSession();
 

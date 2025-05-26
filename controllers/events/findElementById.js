@@ -10,7 +10,6 @@ const findEventById = async (req, res) => {
     try {
         const { id: eventId } = req.params;
 
-        // Validate event ID format
         if (!mongoose.Types.ObjectId.isValid(eventId)) {
             return res.status(400).json({
                 success: false,
@@ -18,14 +17,12 @@ const findEventById = async (req, res) => {
             });
         }
 
-        // Find event by ID and populate related fields
         const event = await Event.findById(eventId).populate({
             path: 'tickets',
-            match: { status: 'available' }, // Only populate available tickets
-            select: 'type price section row seat', // Select specific ticket fields
+            match: { status: 'available' },
+            select: 'type price section row seat',
         });
 
-        // Check if event exists
         if (!event) {
             return res.status(404).json({
                 success: false,
@@ -33,7 +30,6 @@ const findEventById = async (req, res) => {
             });
         }
 
-        // Add calculated fields
         const now = new Date();
         const eventData = event.toObject();
 
@@ -42,13 +38,11 @@ const findEventById = async (req, res) => {
         eventData.isOngoing = event.startDate <= now && event.endDate >= now;
         eventData.isSoldOut = event.availableTickets <= 0;
 
-        // Calculate days until event
         const daysUntilEvent =
             event.startDate > now ? Math.ceil((event.startDate - now) / (1000 * 60 * 60 * 24)) : 0;
 
         eventData.daysUntilEvent = daysUntilEvent;
 
-        // Group tickets by type and calculate price ranges
         const ticketData = {};
         if (event.tickets && event.tickets.length > 0) {
             event.tickets.forEach(ticket => {
@@ -72,7 +66,6 @@ const findEventById = async (req, res) => {
 
         eventData.ticketSummary = ticketData;
 
-        // Remove tickets array if it's too large, to reduce response size
         if (event.tickets && event.tickets.length > 20) {
             delete eventData.tickets;
             eventData.ticketsCount = event.tickets.length;

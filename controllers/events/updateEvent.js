@@ -9,9 +9,8 @@ const { Event, User } = require('../../models');
 const updateEvent = async (req, res) => {
     try {
         const { id: eventId } = req.params;
-        const userId = req.user.id; // Assuming authentication middlewares sets this
+        const userId = req.user.id;
 
-        // Validate event ID format
         if (!mongoose.Types.ObjectId.isValid(eventId)) {
             return res.status(400).json({
                 success: false,
@@ -19,10 +18,8 @@ const updateEvent = async (req, res) => {
             });
         }
 
-        // Find the event
         const event = await Event.findById(eventId);
 
-        // Check if event exists
         if (!event) {
             return res.status(404).json({
                 success: false,
@@ -30,7 +27,6 @@ const updateEvent = async (req, res) => {
             });
         }
 
-        // Check if user has permission to update (must be organizer or admin)
         const user = await User.findById(userId);
 
         if (!user) {
@@ -40,7 +36,6 @@ const updateEvent = async (req, res) => {
             });
         }
 
-        // Check permission - user must be admin or the original organizer
         const isAdmin = user.role === 'admin';
         const isOrganizer = user.role === 'organizer' && event.organizerId.toString() === userId;
 
@@ -51,7 +46,6 @@ const updateEvent = async (req, res) => {
             });
         }
 
-        // Extract fields to update
         const {
             title,
             description,
@@ -61,7 +55,6 @@ const updateEvent = async (req, res) => {
             totalTickets,
         } = req.body;
 
-        // Validate dates if provided
         if (startDate && endDate) {
             const startDateObj = new Date(startDate);
             const endDateObj = new Date(endDate);
@@ -115,7 +108,6 @@ const updateEvent = async (req, res) => {
             }
         }
 
-        // Check if status change is valid
         if (status && !['active', 'cancelled', 'completed', 'postponed'].includes(status)) {
             return res.status(400).json({
                 success: false,
@@ -123,7 +115,6 @@ const updateEvent = async (req, res) => {
             });
         }
 
-        // Handle total tickets update (can only increase, not decrease)
         let { availableTickets } = event;
 
         if (totalTickets !== undefined) {
@@ -136,7 +127,6 @@ const updateEvent = async (req, res) => {
                 });
             }
 
-            // Can only increase total tickets, not decrease below sold tickets
             const soldTickets = event.totalTickets - event.availableTickets;
 
             if (newTotalTickets < soldTickets) {
@@ -146,13 +136,11 @@ const updateEvent = async (req, res) => {
                 });
             }
 
-            // Adjust available tickets if total tickets increase
             if (newTotalTickets > event.totalTickets) {
                 availableTickets += newTotalTickets - event.totalTickets;
             }
         }
 
-        // Create update object with only provided fields
         const updateData = {};
 
         if (title !== undefined) updateData.title = title;
@@ -165,7 +153,6 @@ const updateEvent = async (req, res) => {
             updateData.availableTickets = availableTickets;
         }
 
-        // Update the event
         const updatedEvent = await Event.findByIdAndUpdate(
             eventId,
             { $set: updateData },
@@ -180,7 +167,6 @@ const updateEvent = async (req, res) => {
     } catch (error) {
         console.error('Error updating event:', error);
 
-        // Handle validation errors
         if (error.name === 'ValidationError') {
             const messages = Object.values(error.errors).map(val => val.message);
             return res.status(400).json({

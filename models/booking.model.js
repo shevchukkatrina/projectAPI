@@ -27,28 +27,11 @@ const bookingSchema = new Schema(
         },
         expiryDate: {
             type: Date,
-            required: true,
         },
         status: {
             type: String,
             enum: ['pending', 'confirmed', 'cancelled', 'expired', 'completed'],
             default: 'pending',
-        },
-        paymentStatus: {
-            type: String,
-            enum: ['pending', 'paid', 'failed', 'refunded'],
-            default: 'pending',
-        },
-        paymentDetails: {
-            method: String,
-            transactionId: String,
-            paidAt: Date,
-            amount: Number,
-        },
-        totalPrice: {
-            type: Number,
-            required: true,
-            min: 0,
         },
         bookingReference: {
             type: String,

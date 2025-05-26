@@ -20,7 +20,6 @@ const createEvent = async (req, res) => {
             });
         }
 
-        // Validate dates
         const startDateObj = new Date(startDate);
         const endDateObj = new Date(endDate);
         const currentDate = new Date();
@@ -46,8 +45,6 @@ const createEvent = async (req, res) => {
             });
         }
 
-        // Validate user permissions (assuming user is an organizer or admin)
-        // User ID is taken from authenticated session or token
         const organizerId = req.user._id;
 
         const organizer = await User.findById(organizerId);
@@ -58,7 +55,6 @@ const createEvent = async (req, res) => {
             });
         }
 
-        // Create the event
         const newEvent = new Event({
             title,
             description,
@@ -70,7 +66,6 @@ const createEvent = async (req, res) => {
             status: 'active',
         });
 
-        // Save the event to the database
         await newEvent.save();
 
         return res.status(201).json({
@@ -86,7 +81,6 @@ const createEvent = async (req, res) => {
     } catch (error) {
         console.error('Error creating event:', error);
 
-        // Handle duplicate key error
         if (error.code === 11000) {
             return res.status(400).json({
                 success: false,
@@ -94,7 +88,6 @@ const createEvent = async (req, res) => {
             });
         }
 
-        // Handle validation errors
         if (error.name === 'ValidationError') {
             const messages = Object.values(error.errors).map(val => val.message);
             return res.status(400).json({

@@ -7,17 +7,13 @@ const { Event, User } = require('../../models');
  */
 const findAllEvents = async (req, res) => {
     try {
-        // Extract query parameters for filtering
         const { status, startDate, endDate, organizerId, searchQuery } = req.query;
 
-        // Create filter object
         const filter = {};
 
-        // Apply filters if provided
         if (status) {
             filter.status = status;
         } else {
-            // By default show only active events
             filter.status = 'active';
         }
 
@@ -25,7 +21,6 @@ const findAllEvents = async (req, res) => {
             filter.organizerId = organizerId;
         }
 
-        // Date range filtering
         if (startDate || endDate) {
             filter.startDate = {};
 
@@ -39,7 +34,6 @@ const findAllEvents = async (req, res) => {
             }
         }
 
-        // Text search across multiple fields if search query provided
         if (searchQuery) {
             filter.$or = [
                 { title: { $regex: searchQuery, $options: 'i' } },
@@ -47,24 +41,20 @@ const findAllEvents = async (req, res) => {
             ];
         }
 
-        // Pagination
         const page = parseInt(req.query.page, 10) || 1;
         const limit = parseInt(req.query.limit, 10) || 10;
         const skip = (page - 1) * limit;
 
-        // Sorting
         const sortBy = req.query.sortBy || 'startDate';
         const sortOrder = req.query.sortOrder === 'desc' ? -1 : 1;
         const sort = { [sortBy]: sortOrder };
 
-        // Execute query with pagination
         const events = await Event.find(filter)
             .sort(sort)
             .skip(skip)
             .limit(limit)
             .lean();
 
-        // Get total count for pagination metadata
         const totalEvents = await Event.countDocuments(filter);
         const totalPages = Math.ceil(totalEvents / limit);
 

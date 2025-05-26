@@ -9,21 +9,6 @@ const ticketSchema = new Schema(
             ref: 'Event',
             required: true,
         },
-        price: {
-            type: Number,
-            required: true,
-            min: 0,
-        },
-        section: {
-            type: String,
-            required: true,
-        },
-        row: {
-            type: String,
-        },
-        seat: {
-            type: String,
-        },
         status: {
             type: String,
             enum: ['available', 'reserved', 'sold', 'cancelled'],
@@ -37,11 +22,6 @@ const ticketSchema = new Schema(
         reservationExpiry: {
             type: Date,
             default: null,
-        },
-        barcode: {
-            type: String,
-            unique: true,
-            sparse: true, // Sparse індекс дозволяє null значення
         },
     },
     {
