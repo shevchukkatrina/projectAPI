@@ -33,9 +33,6 @@ const createUser = async data => {
 
     await user.save();
 
-    // Генерація JWT токена
-    const token = generateToken(user._id, user.role);
-
     return {
         user: {
             id: user._id,
@@ -45,7 +42,6 @@ const createUser = async data => {
             phoneNumber: user.phoneNumber,
             role: user.role,
         },
-        token,
     };
 };
 

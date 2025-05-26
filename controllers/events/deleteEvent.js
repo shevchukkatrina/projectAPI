@@ -12,7 +12,7 @@ const deleteEvent = async (req, res) => {
     session.startTransaction();
 
     try {
-        const { eventId } = req.params;
+        const { id: eventId } = req.params;
         const userId = req.user.id;
 
         // Validate event ID format

@@ -1,4 +1,4 @@
-const { Event } = require('../../models');
+const { Event, User } = require('../../models');
 
 /**
  * Controller method to fetch all events with optional filtering
@@ -8,25 +8,17 @@ const { Event } = require('../../models');
 const findAllEvents = async (req, res) => {
     try {
         // Extract query parameters for filtering
-        const { category, status, startDate, endDate, venue, organizerId, searchQuery } = req.query;
+        const { status, startDate, endDate, organizerId, searchQuery } = req.query;
 
         // Create filter object
         const filter = {};
 
         // Apply filters if provided
-        if (category) {
-            filter.category = category;
-        }
-
         if (status) {
             filter.status = status;
         } else {
             // By default show only active events
             filter.status = 'active';
-        }
-
-        if (venue) {
-            filter.venue = { $regex: venue, $options: 'i' }; // Case-insensitive search
         }
 
         if (organizerId) {
@@ -56,8 +48,8 @@ const findAllEvents = async (req, res) => {
         }
 
         // Pagination
-        const page = parseInt(req.query.page) || 1;
-        const limit = parseInt(req.query.limit) || 10;
+        const page = parseInt(req.query.page, 10) || 1;
+        const limit = parseInt(req.query.limit, 10) || 10;
         const skip = (page - 1) * limit;
 
         // Sorting
@@ -70,7 +62,6 @@ const findAllEvents = async (req, res) => {
             .sort(sort)
             .skip(skip)
             .limit(limit)
-            .populate('organizerId', 'firstName lastName email')
             .lean();
 
         // Get total count for pagination metadata

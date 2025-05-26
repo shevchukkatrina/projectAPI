@@ -8,7 +8,7 @@ const { Event, User } = require('../../models');
  */
 const updateEvent = async (req, res) => {
     try {
-        const { eventId } = req.params;
+        const { id: eventId } = req.params;
         const userId = req.user.id; // Assuming authentication middlewares sets this
 
         // Validate event ID format
@@ -55,12 +55,9 @@ const updateEvent = async (req, res) => {
         const {
             title,
             description,
-            category,
-            venue,
             startDate,
             endDate,
             status,
-            imageUrl,
             totalTickets,
         } = req.body;
 
@@ -69,7 +66,7 @@ const updateEvent = async (req, res) => {
             const startDateObj = new Date(startDate);
             const endDateObj = new Date(endDate);
 
-            if (isNaN(startDateObj.getTime()) || isNaN(endDateObj.getTime())) {
+            if (Number.isNaN(startDateObj.getTime()) || Number.isNaN(endDateObj.getTime())) {
                 return res.status(400).json({
                     success: false,
                     message: 'Invalid date format',
@@ -86,7 +83,7 @@ const updateEvent = async (req, res) => {
             const startDateObj = new Date(startDate);
             const endDateObj = event.endDate;
 
-            if (isNaN(startDateObj.getTime())) {
+            if (Number.isNaN(startDateObj.getTime())) {
                 return res.status(400).json({
                     success: false,
                     message: 'Invalid start date format',
@@ -103,7 +100,7 @@ const updateEvent = async (req, res) => {
             const startDateObj = event.startDate;
             const endDateObj = new Date(endDate);
 
-            if (isNaN(endDateObj.getTime())) {
+            if (Number.isNaN(endDateObj.getTime())) {
                 return res.status(400).json({
                     success: false,
                     message: 'Invalid end date format',
@@ -130,9 +127,9 @@ const updateEvent = async (req, res) => {
         let { availableTickets } = event;
 
         if (totalTickets !== undefined) {
-            const newTotalTickets = parseInt(totalTickets);
+            const newTotalTickets = parseInt(totalTickets, 10);
 
-            if (isNaN(newTotalTickets) || newTotalTickets < 0) {
+            if (Number.isNaN(newTotalTickets) || newTotalTickets < 0) {
                 return res.status(400).json({
                     success: false,
                     message: 'Total tickets must be a positive number',
@@ -160,14 +157,11 @@ const updateEvent = async (req, res) => {
 
         if (title !== undefined) updateData.title = title;
         if (description !== undefined) updateData.description = description;
-        if (category !== undefined) updateData.category = category;
-        if (venue !== undefined) updateData.venue = venue;
         if (startDate !== undefined) updateData.startDate = new Date(startDate);
         if (endDate !== undefined) updateData.endDate = new Date(endDate);
         if (status !== undefined) updateData.status = status;
-        if (imageUrl !== undefined) updateData.imageUrl = imageUrl;
         if (totalTickets !== undefined) {
-            updateData.totalTickets = parseInt(totalTickets);
+            updateData.totalTickets = parseInt(totalTickets, 10);
             updateData.availableTickets = availableTickets;
         }
 

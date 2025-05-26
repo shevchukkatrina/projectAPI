@@ -8,7 +8,7 @@ const { Event } = require('../../models');
  */
 const findEventById = async (req, res) => {
     try {
-        const { eventId } = req.params;
+        const { id: eventId } = req.params;
 
         // Validate event ID format
         if (!mongoose.Types.ObjectId.isValid(eventId)) {
@@ -19,13 +19,11 @@ const findEventById = async (req, res) => {
         }
 
         // Find event by ID and populate related fields
-        const event = await Event.findById(eventId)
-            .populate('organizerId', 'firstName lastName email')
-            .populate({
-                path: 'tickets',
-                match: { status: 'available' }, // Only populate available tickets
-                select: 'type price section row seat', // Select specific ticket fields
-            });
+        const event = await Event.findById(eventId).populate({
+            path: 'tickets',
+            match: { status: 'available' }, // Only populate available tickets
+            select: 'type price section row seat', // Select specific ticket fields
+        });
 
         // Check if event exists
         if (!event) {

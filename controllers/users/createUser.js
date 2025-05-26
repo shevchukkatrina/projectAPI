@@ -12,9 +12,15 @@ const createUser = async (req, res) => {
         });
     }
 
-    const result = await usersService.createUser(userData);
+    const result = await usersService.createUser({
+        email,
+        password,
+        firstName,
+        lastName,
+        phoneNumber,
+    });
 
-    res.status(201).json({
+    return res.status(201).json({
         success: true,
         message: 'User registered successfully',
         data: result,
