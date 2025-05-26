@@ -1,9 +1,9 @@
-const { usersService } = require("../../service");
+const { usersService } = require('../../service');
 
 const getAllUsers = async (req, res) => {
-  const users = await usersService.getAllUsers();
+    const users = await usersService.getAllUsers();
 
-  res.json({ users });
+    res.json({ users });
 };
 
 module.exports = getAllUsers;

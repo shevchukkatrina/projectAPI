@@ -166,15 +166,15 @@
  *         description: Квиток не знайдено
  */
 
-const { ticketsController } = require("../controllers");
-const express = require("express");
+const express = require('express');
+const { ticketsController } = require('../controllers');
 
 const router = express.Router();
 
-router.get("/", ticketsController.getAllTickets);
-router.get("/:id", ticketsController.getTicket);
-router.post("/", ticketsController.createTicket);
-router.put("/", ticketsController.updateTicket);
-router.delete("/:id", ticketsController.deleteTicket);
+router.get('/', ticketsController.getAllTickets);
+router.get('/:id', ticketsController.getTicket);
+router.post('/', ticketsController.createTicket);
+router.put('/', ticketsController.updateTicket);
+router.delete('/:id', ticketsController.deleteTicket);
 
 module.exports = router;

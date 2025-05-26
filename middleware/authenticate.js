@@ -1,36 +1,34 @@
-const createHttpError = require("http-errors");
-const { Session, User } = require("../models");
+const createHttpError = require('http-errors');
+const { Session, User } = require('../models');
 
 const authenticate = async (req, res, next) => {
-  const header = req.get("Authorization");
+    const header = req.get('Authorization');
 
-  if (!header) {
-    return next(createHttpError(401, "Auth header is not provided!"));
-  }
+    if (!header) {
+        return next(createHttpError(401, 'Auth header is not provided!'));
+    }
 
-  const [bearer, token] = header.split(" ");
+    const [bearer, token] = header.split(' ');
 
-  if (bearer !== "Bearer" || !token) {
-    return next(createHttpError(401, "Auth header should be of bearer type"));
-  }
+    if (bearer !== 'Bearer' || !token) {
+        return next(createHttpError(401, 'Auth header should be of bearer type'));
+    }
 
-  const session = await Session.findOne({ token });
+    const session = await Session.findOne({ token });
 
-  if (!session) {
-    return next(createHttpError(401, "Session not found!"));
-  }
+    if (!session) {
+        return next(createHttpError(401, 'Session not found!'));
+    }
 
-  const user = await User.findById(session.userId);
+    const user = await User.findById(session.userId);
 
-  if (!user) {
-    return next(
-      createHttpError(401, "User associated with this session in not found!")
-    );
-  }
+    if (!user) {
+        return next(createHttpError(401, 'User associated with this session in not found!'));
+    }
 
-  req.user = user;
+    req.user = user;
 
-  return next();
+    return next();
 };
 
 module.exports = authenticate;

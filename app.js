@@ -1,40 +1,40 @@
-const express = require("express");
-const swaggerUi = require("swagger-ui-express");
-const swaggerJSDoc = require("swagger-jsdoc");
-const path = require("path");
-const cookieParser = require("cookie-parser");
-const logger = require("morgan");
-const performanceMiddleware = require("./middleware/performance");
-const requestStatsMiddleware = require("./middleware/requestStats");
-require("dotenv").config();
+const express = require('express');
+const swaggerUi = require('swagger-ui-express');
+const swaggerJSDoc = require('swagger-jsdoc');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const performanceMiddleware = require('./middleware/performance');
+const requestStatsMiddleware = require('./middleware/requestStats');
+require('dotenv').config();
 
-const rootRouter = require("./routes");
+const rootRouter = require('./routes');
 
-const initMongoDB = require("./db/initMongoDB");
-const notFoundMiddleware = require("./middleware/notFound");
-const errorHandlerMiddleware = require("./middleware/errorHandler");
+const initMongoDB = require('./db/initMongoDB');
+const notFoundMiddleware = require('./middleware/notFound');
+const errorHandlerMiddleware = require('./middleware/errorHandler');
 
 try {
-  initMongoDB();
+    initMongoDB();
 } catch (error) {
-  console.log("Error while init Mongo database");
-  console.error(error);
-  process.exit(1);
+    console.log('Error while init Mongo database');
+    console.error(error);
+    process.exit(1);
 }
-const setupSwagger = require("./swagger");
+const setupSwagger = require('./swagger');
 
 const app = express();
 setupSwagger(app);
 
 // view engine setup
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "hbs");
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'hbs');
 
-app.use(logger("dev"));
+app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, 'public')));
 // app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(require('./swagger')));
 
 // const swaggerOptions = {
@@ -65,7 +65,7 @@ app.use(performanceMiddleware);
 app.use(requestStatsMiddleware);
 
 // Router
-app.use("/", rootRouter);
+app.use('/', rootRouter);
 
 // catch 404 and forward to error handler
 app.use(notFoundMiddleware);

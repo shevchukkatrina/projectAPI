@@ -1,9 +1,9 @@
-const { controllerWrapper } = require("../../utils");
+const { controllerWrapper } = require('../../utils');
 
-const login = require("./login");
-const logout = require("./logout");
+const login = require('./login');
+const logout = require('./logout');
 
 module.exports = {
-  login: controllerWrapper(login),
-  logout: controllerWrapper(logout),
+    login: controllerWrapper(login),
+    logout: controllerWrapper(logout),
 };
