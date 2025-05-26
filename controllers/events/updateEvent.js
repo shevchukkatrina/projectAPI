@@ -9,7 +9,7 @@ const { Event, User } = require('../../models');
 const updateEvent = async (req, res) => {
     try {
         const { eventId } = req.params;
-        const userId = req.user.id; // Assuming authentication middleware sets this
+        const userId = req.user.id; // Assuming authentication middlewares sets this
 
         // Validate event ID format
         if (!mongoose.Types.ObjectId.isValid(eventId)) {

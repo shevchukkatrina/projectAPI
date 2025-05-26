@@ -168,8 +168,11 @@
 
 const express = require('express');
 const { ticketsController } = require('../controllers');
+const { authenticate } = require('../middlewares');
 
 const router = express.Router();
+
+router.use(authenticate);
 
 router.get('/', ticketsController.getAllTickets);
 router.get('/:id', ticketsController.getTicket);

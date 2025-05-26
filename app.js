@@ -4,15 +4,15 @@ const swaggerJSDoc = require('swagger-jsdoc');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const performanceMiddleware = require('./middleware/performance');
-const requestStatsMiddleware = require('./middleware/requestStats');
+const performanceMiddleware = require('./middlewares/performance');
+const requestStatsMiddleware = require('./middlewares/requestStats');
 require('dotenv').config();
 
 const rootRouter = require('./routes');
 
 const initMongoDB = require('./db/initMongoDB');
-const notFoundMiddleware = require('./middleware/notFound');
-const errorHandlerMiddleware = require('./middleware/errorHandler');
+const notFoundMiddleware = require('./middlewares/notFound');
+const errorHandlerMiddleware = require('./middlewares/errorHandler');
 
 try {
     initMongoDB();

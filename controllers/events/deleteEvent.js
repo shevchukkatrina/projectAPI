@@ -13,7 +13,7 @@ const deleteEvent = async (req, res) => {
 
     try {
         const { eventId } = req.params;
-        const userId = req.user.id; // Assuming authentication middleware sets req.user
+        const userId = req.user.id; // Assuming authentication middlewares sets req.user
 
         // Validate event ID format
         if (!mongoose.Types.ObjectId.isValid(eventId)) {

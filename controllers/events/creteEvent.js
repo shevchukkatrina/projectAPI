@@ -25,7 +25,7 @@ const createEvent = async (req, res) => {
         const endDateObj = new Date(endDate);
         const currentDate = new Date();
 
-        if (isNaN(startDateObj.getTime()) || isNaN(endDateObj.getTime())) {
+        if (Number.isNaN(startDateObj.getTime()) || Number.isNaN(endDateObj.getTime())) {
             return res.status(400).json({
                 success: false,
                 message: 'Invalid date format',

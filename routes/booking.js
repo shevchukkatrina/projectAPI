@@ -262,8 +262,11 @@
 
 const express = require('express');
 const { bookingsController } = require('../controllers');
+const { authenticate } = require('../middlewares');
 
 const router = express.Router();
+
+router.use(authenticate);
 
 /* GET users listing. */
 router.get('/', bookingsController.getAllBookings);

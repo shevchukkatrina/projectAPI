@@ -155,13 +155,14 @@
 
 const express = require('express');
 const { eventsController } = require('../controllers');
+const { authenticate } = require('../middlewares');
 
 const router = express.Router();
 
 router.get('/', eventsController.findAllEvents);
 router.get('/:id', eventsController.findElementById);
-router.post('/', eventsController.createEvent);
-router.put('/:id', eventsController.updateEvent);
-router.delete('/:id', eventsController.deleteEvent);
+router.post('/', authenticate, eventsController.createEvent);
+router.put('/:id', authenticate, eventsController.updateEvent);
+router.delete('/:id', authenticate, eventsController.deleteEvent);
 
 module.exports = router;
