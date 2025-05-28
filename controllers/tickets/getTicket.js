@@ -1,23 +1,8 @@
-const { Ticket } = require('../../models');
+const getTicketService = require('../../service/tickets/getTicketService');
 
 const getTicket = async (req, res) => {
-    const { id: ticketId } = req.params;
-
-    const ticket = await Ticket.findById(ticketId)
-        .populate('eventId', 'title description startDate endDate organizerId')
-        .populate('bookingId', 'bookingReference status contactInfo');
-
-    if (!ticket) {
-        return res.status(404).json({
-            success: false,
-            message: 'Ticket not found',
-        });
-    }
-
-    return res.status(200).json({
-        success: true,
-        data: ticket,
-    });
+    const result = await getTicketService(req.params.id);
+    res.status(result.status).json(result.response);
 };
 
 module.exports = getTicket;
