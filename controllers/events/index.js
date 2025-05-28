@@ -3,7 +3,7 @@ const { controllerWrapper } = require('../../utils');
 const createEvent = require('./creteEvent');
 const deleteEvent = require('./deleteEvent');
 const findAllEvents = require('./findAllEvents');
-const findElementById = require('./findElementById');
+const findElementById = require('./findElementByid');
 const updateEvent = require('./updateEvent');
 
 module.exports = {
