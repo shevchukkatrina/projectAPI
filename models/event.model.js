@@ -69,7 +69,7 @@ eventSchema.virtual('isUpcoming').get(function () {
 
 // Метод для перевірки доступності події
 eventSchema.methods.isAvailable = function () {
-    return this.status === 'active' && this.availableTickets > 0 && !this.isPast;
+    return this.status === 'active' && !this.isPast;
 };
 
 // Метод для оновлення кількості доступних квитків
