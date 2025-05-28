@@ -1,5 +1,5 @@
 /* eslint-disable */
-const { Event, Ticket, Booking } = require("../../models");
+const { Event, Ticket, Booking } = require('../../models');
 
 const updateBooking = async (req, res) => {
   const { id: bookingId } = req.params;
@@ -10,17 +10,14 @@ const updateBooking = async (req, res) => {
   if (!booking) {
     return res.status(404).json({
       success: false,
-      message: "Booking not found",
+      message: 'Booking not found',
     });
   }
 
-  if (
-    booking.userId.toString() !== userId.toString() &&
-    req.user.role !== "admin"
-  ) {
+  if (booking.userId.toString() !== userId.toString() && req.user.role !== 'admin') {
     return res.status(403).json({
       success: false,
-      message: "Unauthorized to update this booking",
+      message: 'Unauthorized to update this booking',
     });
   }
 
@@ -31,7 +28,7 @@ const updateBooking = async (req, res) => {
   if (status) {
     let updated = false;
     switch (status) {
-      case "confirmed":
+      case 'confirmed':
         updated = booking.confirm();
         if (updated) {
           // Confirm sale of all tickets
@@ -42,7 +39,7 @@ const updateBooking = async (req, res) => {
           }
         }
         break;
-      case "cancelled":
+      case 'cancelled':
         updated = booking.cancel();
         if (updated) {
           const tickets = await Ticket.find({ _id: { $in: booking.ticketId } });
@@ -52,13 +49,13 @@ const updateBooking = async (req, res) => {
           }
         }
         break;
-      case "completed":
+      case 'completed':
         updated = booking.complete();
         break;
       default:
         return res.status(400).json({
           success: false,
-          message: "Invalid status provided",
+          message: 'Invalid status provided',
         });
     }
 
@@ -72,26 +69,23 @@ const updateBooking = async (req, res) => {
 
   await booking.save();
 
-  if (status && ["cancelled", "confirmed"].includes(status)) {
+  if (status && ['cancelled', 'confirmed'].includes(status)) {
     const event = await Event.findById(booking.eventId);
     if (event) {
       const availableCount = await Ticket.countDocuments({
         eventId: booking.eventId,
-        status: "available",
+        status: 'available',
       });
       event.availableTickets = availableCount;
       await event.save();
     }
   }
 
-  const updatedBooking = await Booking.findById(bookingId)
-    .populate("eventId", "title startDate endDate")
-    .populate("ticketId")
-    .populate("userId", "name email");
+  const updatedBooking = await Booking.findById(bookingId).populate('eventId', 'title startDate endDate').populate('ticketId').populate('userId', 'name email');
 
   return res.status(200).json({
     success: true,
-    message: "Booking updated successfully",
+    message: 'Booking updated successfully',
     data: updatedBooking,
   });
 };

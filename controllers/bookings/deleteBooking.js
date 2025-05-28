@@ -1,5 +1,5 @@
 /* eslint-disable */
-const { Event, Ticket, Booking } = require("../../models");
+const { Event, Ticket, Booking } = require('../../models');
 
 const deleteBooking = async (req, res) => {
   const { id: bookingId } = req.params;
@@ -9,24 +9,21 @@ const deleteBooking = async (req, res) => {
   if (!booking) {
     return res.status(404).json({
       success: false,
-      message: "Booking not found",
+      message: 'Booking not found',
     });
   }
 
-  if (
-    booking.userId.toString() !== userId.toString() &&
-    req.user.role !== "admin"
-  ) {
+  if (booking.userId.toString() !== userId.toString() && req.user.role !== 'admin') {
     return res.status(403).json({
       success: false,
-      message: "Unauthorized to delete this booking",
+      message: 'Unauthorized to delete this booking',
     });
   }
 
   if (!booking.canBeCancelled()) {
     return res.status(400).json({
       success: false,
-      message: "Booking cannot be cancelled (expired or already processed)",
+      message: 'Booking cannot be cancelled (expired or already processed)',
     });
   }
 
@@ -34,7 +31,7 @@ const deleteBooking = async (req, res) => {
   if (!cancelled) {
     return res.status(400).json({
       success: false,
-      message: "Unable to cancel booking",
+      message: 'Unable to cancel booking',
     });
   }
 
@@ -50,7 +47,7 @@ const deleteBooking = async (req, res) => {
   if (event) {
     const availableCount = await Ticket.countDocuments({
       eventId: booking.eventId,
-      status: "available",
+      status: 'available',
     });
     event.availableTickets = availableCount;
     await event.save();
@@ -58,7 +55,7 @@ const deleteBooking = async (req, res) => {
 
   return res.status(200).json({
     success: true,
-    message: "Booking cancelled successfully",
+    message: 'Booking cancelled successfully',
     data: booking,
   });
 };
