@@ -78,6 +78,8 @@
  *   post:
  *     summary: Створити нову подію
  *     tags: [Events]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -91,6 +93,8 @@
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Event'
+ *       401:
+ *         description: Неавторизований доступ
  */
 
 /**
@@ -119,6 +123,8 @@
  *   put:
  *     summary: Оновити подію
  *     tags: [Events]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -135,10 +141,14 @@
  *     responses:
  *       200:
  *         description: Подію оновлено
+ *       401:
+ *         description: Неавторизований доступ
  *
  *   delete:
  *     summary: Видалити подію
  *     tags: [Events]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -149,6 +159,8 @@
  *     responses:
  *       204:
  *         description: Успішно видалено
+ *       401:
+ *         description: Неавторизований доступ
  *       404:
  *         description: Подію не знайдено
  */

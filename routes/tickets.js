@@ -1,6 +1,11 @@
 /**
  * @swagger
  * components:
+ *   securitySchemes:
+ *     bearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
  *   schemas:
  *     Ticket:
  *       type: object
@@ -67,6 +72,8 @@
  *   get:
  *     summary: Отримати список усіх квитків
  *     tags: [Tickets]
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: Успішне отримання списку
@@ -84,6 +91,8 @@
  *   get:
  *     summary: Отримати квиток за ID
  *     tags: [Tickets]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -108,6 +117,8 @@
  *   post:
  *     summary: Створити новий квиток
  *     tags: [Tickets]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -129,6 +140,8 @@
  *   put:
  *     summary: Оновити існуючий квиток
  *     tags: [Tickets]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -152,6 +165,8 @@
  *   delete:
  *     summary: Видалити квиток за ID
  *     tags: [Tickets]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id

@@ -5,19 +5,19 @@
  *     LoginRequest:
  *       type: object
  *       required:
- *         - username
+ *         - email
  *         - password
  *       properties:
- *         username:
+ *         email:
  *           type: string
- *           description: Ім'я користувача або email
+ *           description: Електронна пошта користувача
  *         password:
  *           type: string
- *           description: Пароль
+ *           description: Пароль користувача
  *       example:
- *         username: "user@example.com"
- *         password: "securePassword123"
- * 
+ *         email: "test@gmail.com"
+ *         password: "123123"
+ *
  *     LoginResponse:
  *       type: object
  *       properties:
@@ -26,12 +26,17 @@
  *           description: JWT токен для аутентифікації
  *       example:
  *         token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-
+ *
+ *   securitySchemes:
+ *     bearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
  */
 
 /**
  * @swagger
- * /login:
+ * /auth/login:
  *   post:
  *     summary: Увійти в систему
  *     tags: [Auth]
@@ -43,7 +48,7 @@
  *             $ref: '#/components/schemas/LoginRequest'
  *     responses:
  *       200:
- *         description: Успішна авторизація
+ *         description: Успішна авторизація, повертає JWT токен
  *         content:
  *           application/json:
  *             schema:
@@ -54,13 +59,17 @@
 
 /**
  * @swagger
- * /logout:
+ * /auth/logout:
  *   post:
  *     summary: Вийти з системи
  *     tags: [Auth]
+ * security:
+ *    - bearerAuth: []
  *     responses:
  *       200:
  *         description: Успішний вихід
+ *       401:
+ *         description: Неавторизований запит (відсутній або некоректний токен)
  */
 
 const express = require('express');

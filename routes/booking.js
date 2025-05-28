@@ -76,10 +76,19 @@
 
 /**
  * @swagger
+ * tags:
+ *   name: Booking
+ *   description: API для керування бронюваннями
+ */
+
+/**
+ * @swagger
  * /booking:
  *   get:
  *     summary: Отримати всі бронювання
- *     tags: [Bookings]
+ *     tags: [Booking]
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: Список бронювань
@@ -93,6 +102,8 @@
  *   post:
  *     summary: Створити нове бронювання
  *     tags: [Booking]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -106,6 +117,8 @@
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Booking'
+ *       401:
+ *         description: Неавторизований доступ
  */
 
 /**
@@ -114,6 +127,8 @@
  *   get:
  *     summary: Отримати бронювання по ID
  *     tags: [Booking]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -130,10 +145,14 @@
  *               $ref: '#/components/schemas/Booking'
  *       404:
  *         description: Бронювання не знайдено
+ *       401:
+ *         description: Неавторизований доступ
  *
  *   put:
  *     summary: Оновити бронювання по ID
  *     tags: [Booking]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -150,10 +169,14 @@
  *     responses:
  *       200:
  *         description: Оновлено
+ *       401:
+ *         description: Неавторизований доступ
  *
  *   delete:
  *     summary: Видалити бронювання
  *     tags: [Booking]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -164,6 +187,10 @@
  *     responses:
  *       204:
  *         description: Успішно видалено
+ *       401:
+ *         description: Неавторизований доступ
+ *       404:
+ *         description: Бронювання не знайдено
  */
 
 /**
@@ -172,6 +199,8 @@
  *   get:
  *     summary: Отримати бронювання користувача
  *     tags: [Booking]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -182,6 +211,8 @@
  *     responses:
  *       200:
  *         description: Список бронювань користувача
+ *       401:
+ *         description: Неавторизований доступ
  */
 
 /**
@@ -190,6 +221,8 @@
  *   get:
  *     summary: Отримати бронювання для події
  *     tags: [Booking]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -200,6 +233,8 @@
  *     responses:
  *       200:
  *         description: Список бронювань для події
+ *       401:
+ *         description: Неавторизований доступ
  */
 
 /**
@@ -208,6 +243,8 @@
  *   put:
  *     summary: Скасувати бронювання
  *     tags: [Booking]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -220,6 +257,8 @@
  *         description: Бронювання скасовано
  *       400:
  *         description: Неможливо скасувати
+ *       401:
+ *         description: Неавторизований доступ
  */
 
 /**
@@ -228,6 +267,8 @@
  *   put:
  *     summary: Підтвердити бронювання
  *     tags: [Booking]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -240,6 +281,8 @@
  *         description: Бронювання підтверджено
  *       400:
  *         description: Неможливо підтвердити
+ *       401:
+ *         description: Неавторизований доступ
  */
 
 /**
@@ -248,6 +291,8 @@
  *   get:
  *     summary: Отримати статус бронювання
  *     tags: [Booking]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -258,6 +303,8 @@
  *     responses:
  *       200:
  *         description: Статус повернуто
+ *       401:
+ *         description: Неавторизований доступ
  */
 
 const express = require('express');
